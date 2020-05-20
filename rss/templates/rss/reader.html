@@ -1,0 +1,74 @@
+{% extends 'rss/base.html' %}
+
+{% block body %}
+
+<br />
+
+<form class="form-inline">
+
+    <div class="form-group mx-sm-3 mb-2">
+
+        <input type="text" class="form-control" id="inputURL" placeholder="paste link" name="url" value="{{ url }}">
+
+        <label for="sort" style="margin-left: 20px;">Sort by date:</label>
+
+        <select name="dropdown" id="sort" style="width: 180px; margin-left: 10px;" class="custom-select">
+          <option value="descending">Descending</option>
+          <option value="ascending">Ascending</option>
+        </select>
+
+    </div>
+
+    <button type="submit" class="btn btn-info mb-2">Fetch/Reload</button>
+
+</form>
+
+{% if feed %}
+
+<div class="card container my-2 shadow-lg bg-secondary text-white" style="border: none">
+
+    <h2 class="text-center"  style="margin: 25px;">{{ feed.feed.title }}</h2>
+
+</div>
+
+{% if feed.entries %}
+
+{% for entry in feed.entries %}
+
+<div class="card container my-2 shadow-lg" style="border: none">
+
+    <div class="card-header row bg-dark text-white" style="">Article</div>
+
+    <div class="card-body">
+
+        <h4 class="card-title">{{ entry.title }}</h4>
+
+        <p class="card-text">{{ entry.description }}</p>
+
+        {% for en in entry.enclosures %}
+
+        <img src="{{ en.href }}" alt="" class="img-fluid shadow-lg">
+
+        {% endfor %}
+
+        <p>Publication date: {{ entry.published }}</p>
+
+        <a href="{{ entry.link }}" class="btn btn-info stretched-link" target="_blank">Visit Link</a>
+
+    </div>
+
+    <a class="btn btn-info mb-2 gotopbtn" style="font-size: 20px;" href="#"><i class="fas fa-chevron-up"></i></a>
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+{% else %}
+
+<p style="margin-left: 35px; margin-top: 5px">Enter RSS feed above.</p>
+
+{% endif %}
+
+{% endblock %}
